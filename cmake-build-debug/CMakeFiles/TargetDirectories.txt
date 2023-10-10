@@ -1,0 +1,3 @@
+/home/onyx/CLionProjects/nm/cmake-build-debug/CMakeFiles/nm.dir
+/home/onyx/CLionProjects/nm/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/onyx/CLionProjects/nm/cmake-build-debug/CMakeFiles/rebuild_cache.dir
