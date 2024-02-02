@@ -4,9 +4,10 @@ static void print_symtab_x64(Elf64_Symtab_Element *symtab, Elf64_Xword i) {
 	char buff[512];
     size_t len;
 
-    ft_memset(buff, ' ', sizeof(char) * 512);
+
     for (Elf64_Xword j = 0; j < i; j++) {
 		if (symtab[j].name != NULL) {
+			ft_memset(buff, ' ', sizeof(char) * 512);
 			if (symtab[j].sym_element->st_value != 0)
                 address_to_hex(symtab[j].sym_element->st_value, buff, 16);
 

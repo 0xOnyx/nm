@@ -4,8 +4,8 @@ static void print_symtab_x64(Elf32_Symtab_Element *symtab, Elf32_Xword i) {
     char buff[512];
     size_t len;
 
-    ft_memset(buff, ' ', sizeof(char) * 512);
     for (Elf32_Xword j = 0; j < i; j++) {
+		ft_memset(buff, ' ', sizeof(char) * 512);
         if (symtab[j].name != NULL) {
             if (symtab[j].sym_element->st_value != 0)
                 address_to_hex(symtab[j].sym_element->st_value, buff, 8);

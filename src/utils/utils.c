@@ -96,7 +96,7 @@ void	handle_error(char *msg)
 void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){
     const char *hex_digits = "0123456789abcdef";
 
-    for (int i = buffer_len - 1; i != 0; i--){
+    for (int i = buffer_len - 1; i >= 0; i--){
         buffer[i] = hex_digits[addr % 16];
         addr /= 16;
     }
