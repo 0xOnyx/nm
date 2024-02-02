@@ -1,19 +1,5 @@
 #include "utils.h"
 
-void	handle_error(char *msg)
-{
-	char	buff_str[255];
-
-	if (strlcat(buff_str, "ft_nm: ", 255) > 255
-		|| strlcat(buff_str, msg, 255) > 255)
-		exit(1);
-	if (errno)
-		perror(buff_str);
-	else
-		fprintf(stderr, "%s\n", buff_str);
-	exit(EXIT_FAILURE);
-}
-
 int		check_elf(const unsigned char *file, int *arch)
 {
 	*arch = file[EI_CLASS];

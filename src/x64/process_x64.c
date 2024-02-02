@@ -1,31 +1,33 @@
 #include "utils.h"
 
-void print_symtab_x64(Elf_Symtab_Element *symtab, Elf64_Xword i) {
-	for (Elf64_Xword j = 0; j < i; j++) {
+static void print_symtab_x64(Elf64_Symtab_Element *symtab, Elf64_Xword i) {
+	char buff[512];
+    size_t len;
+
+    ft_memset(buff, ' ', sizeof(char) * 512);
+    for (Elf64_Xword j = 0; j < i; j++) {
 		if (symtab[j].name != NULL) {
 			if (symtab[j].sym_element->st_value != 0)
-				printf("%016lx %c %s\n",
-					   symtab[j].sym_element->st_value,
-					   symtab[j].type,
-					   symtab[j].name);
-			else
-				printf("%16c %c %s\n",
-					   ' ',
-					   symtab[j].type,
-					   symtab[j].name);
+                address_to_hex(symtab[j].sym_element->st_value, buff, 16);
+
+            buff[17] = symtab[j].type;
+            buff[19] = 0;
+            strlcat(buff, symtab[j].name, 512);
+            len = strlcat(buff, "\n", 512);
+            write(STDOUT_FILENO, buff, len);
 		}
 	}
 
 }
 
-Elf64_Shdr *get_an_type_in_symtab(Elf64_Shdr *shdr, int size, Elf64_Word type){
+static Elf64_Shdr *get_an_type_in_symtab(Elf64_Shdr *shdr, int size, Elf64_Word type){
 	for (int i = 0; i < size; i++)
 		if (shdr[i].sh_type == type)
 			return shdr + i;
 	return NULL;
 }
 
-char get_section_data(unsigned char bind, Elf64_Word section_type, Elf64_Xword section_flags){
+static char get_section_data(unsigned char bind, Elf64_Word section_type, Elf64_Xword section_flags){
 	if (section_type == SHT_NOBITS && (section_flags & SHF_ALLOC)) {
 		if (section_flags & SHF_IA_64_SHORT) {
 			return bind == STB_LOCAL ? 's' : 'S'; // Small uninitialized data section
@@ -46,7 +48,7 @@ char get_section_data(unsigned char bind, Elf64_Word section_type, Elf64_Xword s
 	return '?';
 }
 
-char get_symbol_type(Elf64_Sym *sym, Elf64_Shdr *shdr, Elf64_Ehdr *ehdr) {
+static char get_symbol_type(Elf64_Sym *sym, Elf64_Shdr *shdr, Elf64_Ehdr *ehdr) {
 	unsigned char type;
 	unsigned char bind;
 	Elf64_Word section_type;
@@ -105,7 +107,7 @@ char get_symbol_type(Elf64_Sym *sym, Elf64_Shdr *shdr, Elf64_Ehdr *ehdr) {
 }
 
 
-int is_element(Elf64_Sym *sym){
+static int is_element(Elf64_Sym *sym){
 	unsigned char type;
 
 	type = ELF64_ST_TYPE(sym->st_info);
@@ -113,7 +115,7 @@ int is_element(Elf64_Sym *sym){
 
 }
 
-void fill_symtab(Elf_Symtab_Element *symtab_element, Elf64_Shdr *shdr_sym, Elf64_Shdr *shdr, const unsigned char *file)
+static void fill_symtab(Elf64_Symtab_Element *symtab_element, Elf64_Shdr *shdr_sym, Elf64_Shdr *shdr, const unsigned char *file)
 {
 	Elf64_Sym *sym_tab;
 	char *str_table;
@@ -132,22 +134,22 @@ void fill_symtab(Elf_Symtab_Element *symtab_element, Elf64_Shdr *shdr_sym, Elf64
 	}
 }
 
-void swap_symtab_element(Elf_Symtab_Element *a, Elf_Symtab_Element *b)
+void swap_symtab_element(Elf64_Symtab_Element *a, Elf64_Symtab_Element *b)
 {
-	Elf_Symtab_Element tmp;
+	Elf64_Symtab_Element tmp;
 
-	memcpy(&tmp, a, sizeof(Elf_Symtab_Element));
-	memcpy(a, b, sizeof(Elf_Symtab_Element));
-	memcpy(b, &tmp, sizeof(Elf_Symtab_Element));
+	ft_memcpy(&tmp, a, sizeof(Elf64_Symtab_Element));
+	ft_memcpy(a, b, sizeof(Elf64_Symtab_Element));
+	ft_memcpy(b, &tmp, sizeof(Elf64_Symtab_Element));
 }
 
-Elf64_Xword partition(Elf_Symtab_Element *arr, long long low, long long high) {
+static Elf64_Xword partition(Elf64_Symtab_Element *arr, long long low, long long high) {
 	char *pivot = arr[high].name;
 
 	long long i = (low - 1);
 	for (long long j=low; j <= high; j++)
 	{
-		if (strcmp(arr[j].name, pivot) < 0)
+		if (ft_strcmp(arr[j].name, pivot) < 0)
 		{
 			i++;
 			swap_symtab_element(arr + i, arr + j);
@@ -157,7 +159,7 @@ Elf64_Xword partition(Elf_Symtab_Element *arr, long long low, long long high) {
 	return (i + 1);
 }
 
-void quickSort(Elf_Symtab_Element *arr, long long low, long long high) {
+static void quickSort(Elf64_Symtab_Element *arr, long long low, long long high) {
 	if (low < high)
 	{
 		long long pi = partition(arr, low, high);
@@ -166,7 +168,7 @@ void quickSort(Elf_Symtab_Element *arr, long long low, long long high) {
 	}
 }
 
-Elf64_Xword count_nbr(int (*f)(Elf64_Sym *), const unsigned char *file, Elf64_Shdr  *shdr_sym)
+static Elf64_Xword count_nbr(int (*f)(Elf64_Sym *), const unsigned char *file, Elf64_Shdr  *shdr_sym)
 {
 	Elf64_Sym *sym_tab;
 	Elf64_Xword num_sym;
@@ -188,7 +190,7 @@ void	process_x64(const unsigned char *file, size_t length_file)
 	Elf64_Shdr  *shdr_sym;
 
 	Elf64_Xword num_sym;
-	Elf_Symtab_Element *symtab;
+	Elf64_Symtab_Element *symtab;
 
 	ehdr = (Elf64_Ehdr *)file;
 	shdr = (Elf64_Shdr *)(file + ehdr->e_shoff);
@@ -200,7 +202,7 @@ void	process_x64(const unsigned char *file, size_t length_file)
 	}
 
 	num_sym = count_nbr(&is_element, file, shdr_sym);
-	symtab = calloc(num_sym, sizeof(Elf_Symtab_Element));
+	symtab = ft_calloc(num_sym, sizeof(Elf64_Symtab_Element));
 
 	fill_symtab(symtab, shdr_sym, shdr, file);
 	quickSort(symtab, (Elf64_Xword)0, num_sym - 1);
