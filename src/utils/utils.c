@@ -83,6 +83,7 @@ void	handle_error(char *msg)
 {
     char	buff_str[255];
 
+	buff_str[0] = 0;
     if (ft_strlcat(buff_str, "ft_nm: ", 255) > 255
         || ft_strlcat(buff_str, msg, 255) > 255)
         exit(1);
@@ -90,7 +91,6 @@ void	handle_error(char *msg)
         perror(buff_str);
     else
         fprintf(stderr, "%s\n", buff_str);
-    exit(EXIT_FAILURE);
 }
 
 void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){
