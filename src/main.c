@@ -52,8 +52,8 @@ int	main(int argc, char **argv)
 	{
 		for (int i = 1; i < argc; i++){
 			ft_memset(buff,0, sizeof(char) * 512);
-			strlcat(buff, argv[i], 512);
-			len = strlcat(buff, ":\n", 512);
+			ft_strlcat(buff, argv[i], 512);
+			len = ft_strlcat(buff, ":\n", 512);
 			write(STDOUT_FILENO, buff, len);
 			nm(argv[i]);
 			write(STDOUT_FILENO, "\n", 1);

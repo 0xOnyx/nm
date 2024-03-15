@@ -13,8 +13,8 @@ static void print_symtab_x64(Elf64_Symtab_Element *symtab, Elf64_Xword i) {
 
             buff[17] = symtab[j].type;
             buff[19] = 0;
-            strlcat(buff, symtab[j].name, 512);
-            len = strlcat(buff, "\n", 512);
+            ft_strlcat(buff, symtab[j].name, 512);
+            len = ft_strlcat(buff, "\n", 512);
             write(STDOUT_FILENO, buff, len);
 		}
 	}

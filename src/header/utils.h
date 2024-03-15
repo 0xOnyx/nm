@@ -5,7 +5,6 @@
 # include <fcntl.h>
 # include <sys/mman.h>
 # include <strings.h>
-# include <bsd/string.h>
 # include <sys/stat.h>
 # include <stdlib.h>
 # include <elf.h>

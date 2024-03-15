@@ -46,7 +46,7 @@ CFLAGS				= -Wall -Wextra -Werror
 
 OPTIONS				= -I$(PATH_HEADER)
 
-LIB					= -lbsd
+LIB					= 
 
 CC					= gcc
 RM					= rm -rf
