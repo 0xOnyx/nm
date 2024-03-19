@@ -25,15 +25,18 @@ void nm(char *file){
 	if ((fd_file = open(file, O_RDONLY)) < 0
 		||	fstat(fd_file, &sb) < 0) {
 		handle_error(file);
+		return ;
 	}
 	length_file = (size_t)sb.st_size;
 	if ((buff_file = mmap(NULL, length_file, PROT_READ, MAP_PRIVATE, fd_file, 0)) == (void *)-1 ) {
 		handle_error("memory");
+		return ;
 	}
 	if (check_elf(buff_file, &arch))
 	{
 		munmap(buff_file, length_file);
 		handle_error("not an elf file");
+		return ;
 	}
 	if (arch == ELFCLASS64)
 		process_x64(buff_file, length_file);
