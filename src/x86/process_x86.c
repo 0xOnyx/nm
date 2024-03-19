@@ -14,8 +14,7 @@ static void print_symtab_x64(Elf32_Symtab_Element *symtab, Elf32_Xword i) {
             buff[11] = 0;
             ft_strlcat(buff, symtab[j].name, 512);
             len = ft_strlcat(buff, "\n", 512);
-            write(STDOUT_FILENO, buff, len);
-
+            ft_print(buff, len);
         }
     }
 

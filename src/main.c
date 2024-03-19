@@ -55,11 +55,11 @@ int	main(int argc, char **argv)
 				ft_memset(buff,0, sizeof(char) * 512);
 				ft_strlcat(buff, argv[i], 512);
 				len = ft_strlcat(buff, ":\n", 512);
-				write(STDOUT_FILENO, buff, len);
+                ft_print(buff, len);
 			}
 			nm(argv[i]);
 			if (i + 1 != argc)
-				write(STDOUT_FILENO, "\n", 1);
+                ft_print("\n", 1);
 		}
 		return (argc - 1);
 	}

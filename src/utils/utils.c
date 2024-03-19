@@ -102,11 +102,6 @@ void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){
     }
 }
 
-
-
-
-
-
-
-
-
+ssize_t ft_print(char *str, size_t len){
+    return write(STDOUT_FILENO, str, len);
+}

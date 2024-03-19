@@ -37,6 +37,7 @@ void    *ft_memcpy(void *_dest, const void *_src, size_t _n);
 void    *ft_calloc(size_t count, size_t size);
 int     ft_strcmp(const char *_s1, const char *_s2);
 size_t  ft_strlcat(char *dst, const char *src, size_t siz);
+ssize_t ft_print(char *str, size_t len);
 
 void    address_to_hex(uint64_t addr, char *buffer, int buffer_len);
 
