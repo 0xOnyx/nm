@@ -58,7 +58,8 @@ int	main(int argc, char **argv)
 				write(STDOUT_FILENO, buff, len);
 			}
 			nm(argv[i]);
-			write(STDOUT_FILENO, "\n", 1);
+			if (i + 1 != argc)
+				write(STDOUT_FILENO, "\n", 1);
 		}
 		return (argc - 1);
 	}
