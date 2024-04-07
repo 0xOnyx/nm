@@ -194,6 +194,8 @@ void	process_x64(const unsigned char *file, size_t length_file)
 	Elf64_Symtab_Element *symtab;
 
 	ehdr = (Elf64_Ehdr *)file;
+	if (ehdr->e_shoff > length_file)
+		return handle_error("header: file too short\n");
 	shdr = (Elf64_Shdr *)(file + ehdr->e_shoff);
 	shdr_sym = get_an_type_in_symtab(shdr, ehdr->e_shnum, SHT_SYMTAB);
 	if (!shdr_sym)

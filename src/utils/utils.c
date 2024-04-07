@@ -90,7 +90,7 @@ void	handle_error(char *msg)
     if (errno)
         perror(buff_str);
     else
-        fprintf(stderr, "%s\n", buff_str);
+		write(STDERR_FILENO, buff_str, ft_strlen(buff_str));
 }
 
 void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){

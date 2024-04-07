@@ -38,7 +38,7 @@ OBJS				= $(addprefix $(PATH_OBJ),$(OBJ))
 HEADERS				= $(addprefix $(PATH_HEADER),$(HEADER))
 
 ifndef DEBUG
-	DEBUG			= 0
+	DEBUG			= 1
 endif
 
 DEBUGING			= -g3 -fsanitize=address -fsanitize=undefined
