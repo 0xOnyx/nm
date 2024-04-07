@@ -37,9 +37,8 @@ OBJS				= $(addprefix $(PATH_OBJ),$(OBJ))
 
 HEADERS				= $(addprefix $(PATH_HEADER),$(HEADER))
 
-ifndef DEBUG
-	DEBUG			= 1
-endif
+
+DEBUG				= 1
 
 DEBUGING			= -g3 -fsanitize=address -fsanitize=undefined
 CFLAGS				= -Wall -Wextra -Werror
@@ -54,6 +53,8 @@ RM					= rm -rf
 ifeq ($(DEBUG), 1)
 	CFLAGS += $(DEBUGING)
 endif
+
+OPTIMISATION_LEVEL = 0
 
 ifdef OPTIMISATION_LEVEL
 	ifeq ($(OPTIMISATION_LEVEL),0)

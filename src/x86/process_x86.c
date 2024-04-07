@@ -198,7 +198,8 @@ void	process_x32(const unsigned char *file, size_t length_file)
     if (!shdr_sym)
     {
         munmap((void *)file, length_file);
-        handle_error("no symbols");
+        handle_error("no symbols\n");
+        return ;
     }
 
     num_sym = count_nbr(&is_element, file, shdr_sym);

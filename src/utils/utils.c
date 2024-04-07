@@ -90,7 +90,7 @@ void	handle_error(char *msg)
     if (errno)
         perror(buff_str);
     else
-		write(STDERR_FILENO, buff_str, ft_strlen(buff_str));
+		ft_print_error(buff_str, ft_strlen(buff_str));
 }
 
 void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){
@@ -104,4 +104,8 @@ void    address_to_hex(uint64_t addr, char *buffer, int buffer_len){
 
 ssize_t ft_print(char *str, size_t len){
     return write(STDOUT_FILENO, str, len);
+}
+
+ssize_t ft_print_error(char *str, size_t len){
+    return write(STDERR_FILENO, str, len);
 }
